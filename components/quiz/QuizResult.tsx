@@ -23,7 +23,7 @@ export default function QuizResult({ correct, total, onRetry, onRestart, wrongLi
       {wrongList.length > 0 && (
         <div className="mb-6">
           <h3 className="font-semibold mb-2">Review:</h3>
-          {wrongList.map(({ q, a }, i) => (
+          {wrongList.map(({ q, a }) => (
             <div key={q.id} className="mb-3 p-3 border rounded">
               <div className="font-medium">{q.question}</div>
               <div>

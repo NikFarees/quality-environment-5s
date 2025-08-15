@@ -13,7 +13,6 @@ export default function QuizApp() {
   const [answers, setAnswers] = useState<Map<number, { chosenLetter: string; chosenText: string }>>(new Map());
   const [started, setStarted] = useState(false);
   const [finished, setFinished] = useState(false);
-  const [startTs, setStartTs] = useState<number>(0);
   const [timer, setTimer] = useState(0);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const [theme, setTheme] = useState<string>("dark");
@@ -22,14 +21,14 @@ export default function QuizApp() {
   // Load theme from localStorage
   useEffect(() => {
     const savedTheme = typeof window !== "undefined" ? localStorage.getItem("quiz-theme") : null;
-    if (savedTheme && savedTheme !== theme) setTheme(savedTheme);
+    if (savedTheme) setTheme(savedTheme);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // Remove theme dependency to run only once
 
   // Timer effect
   useEffect(() => {
     if (started && !finished) {
       const currentStartTs = Date.now();
-      setStartTs(currentStartTs);
       setTimer(0);
       if (timerRef.current) clearInterval(timerRef.current);
       timerRef.current = setInterval(() => {
@@ -57,7 +56,6 @@ export default function QuizApp() {
     setAnswers(new Map());
     setStarted(true);
     setFinished(false);
-    setStartTs(Date.now());
     setTimer(0);
     setSelectedChapter(chapter);
   };

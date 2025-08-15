@@ -1,9 +1,10 @@
 // components/quiz/QuizWelcome.tsx
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Question } from "@/data/questions";
 
 export type QuizWelcomeProps = {
-  chapters: Record<string, any[]>;
+  chapters: Record<string, Question[]>;
   onStart: (chapter: string) => void;
   onToggleTheme?: () => void;
   theme?: string;
