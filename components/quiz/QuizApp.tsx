@@ -23,16 +23,17 @@ export default function QuizApp() {
   useEffect(() => {
     const savedTheme = typeof window !== "undefined" ? localStorage.getItem("quiz-theme") : null;
     if (savedTheme && savedTheme !== theme) setTheme(savedTheme);
-  }, []);
+  }, []); // Remove theme dependency to run only once
 
   // Timer effect
   useEffect(() => {
     if (started && !finished) {
-      setStartTs(Date.now());
+      const currentStartTs = Date.now();
+      setStartTs(currentStartTs);
       setTimer(0);
       if (timerRef.current) clearInterval(timerRef.current);
       timerRef.current = setInterval(() => {
-        setTimer(Math.floor((Date.now() - (startTs || Date.now())) / 1000));
+        setTimer(Math.floor((Date.now() - currentStartTs) / 1000));
       }, 1000);
       return () => {
         if (timerRef.current) clearInterval(timerRef.current);
@@ -41,7 +42,7 @@ export default function QuizApp() {
     if (finished && timerRef.current) {
       clearInterval(timerRef.current);
     }
-  }, [started, finished]);
+  }, [started, finished]); // Remove startTs dependency
 
   // Theme change effect
   useEffect(() => {
@@ -113,7 +114,6 @@ export default function QuizApp() {
         <header style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, marginBottom: 18 }}>
           <h1>{selectedChapter ? selectedChapter.replace(/chapter/i, "Chapter ") : "Quiz"}</h1>
           <div className="controls">
-            
             <button className="btn secondary" onClick={toggleTheme} title="Toggle theme">
               {theme === "dark" ? "☀️" : "🌙"}
             </button>
@@ -190,7 +190,6 @@ export default function QuizApp() {
       <header style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, marginBottom: 18 }}>
         <h1>{selectedChapter ? selectedChapter.replace(/chapter/i, "Chapter ") : "Quiz"}</h1>
         <div className="controls">
-          
           <button className="btn secondary" onClick={toggleTheme} title="Toggle theme">
             {theme === "dark" ? "☀️" : "🌙"}
           </button>
