@@ -20,7 +20,7 @@ export default function QuizWelcome({
     <div className="container text-center py-10">
       <h1 className="text-2xl font-bold mb-6">Certified Productivity Specialist (CPS) Preparatory Course</h1>
       <div className="mb-8 mt-7">
-        <h2 className="text-xl font-bold mb-2">Ready to Test Your 5S Knowledge?</h2>
+        <h2 className="text-xl font-bold mb-2">Ready to Test Your Knowledge?</h2>
         <p className="mb-2">
           Please choose a chapter below and answer 10 questions to test your knowledge.<br />
           <strong>You must answer all questions</strong> before you can submit your results.
