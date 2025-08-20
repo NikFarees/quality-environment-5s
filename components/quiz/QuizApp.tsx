@@ -191,11 +191,7 @@ export default function QuizApp() {
           <button className="btn secondary" onClick={toggleTheme} title="Toggle theme">
             {theme === "dark" ? "☀️" : "🌙"}
           </button>
-          <button className="btn secondary" onClick={() => {
-            setStarted(false);
-            setFinished(false);
-            setSelectedChapter(null);
-          }}>Home</button>
+          <button className="btn secondary" disabled>Home</button>
         </div>
       </header>
       <div className="card" role="region" aria-live="polite">
@@ -239,7 +235,13 @@ export default function QuizApp() {
               })}
             </div>
             <div className="footer mt-4 flex gap-2">
-              <button className="btn secondary" onClick={goPrev} disabled={index === 0}>Back</button>
+              <button
+                className="btn secondary"
+                onClick={() => alert("Ah ah ahhh. No cheating.")}
+                disabled={index === 0}
+              >
+                Back
+              </button>
               <button
                 className="btn"
                 onClick={() => {
