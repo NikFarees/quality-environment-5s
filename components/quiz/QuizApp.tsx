@@ -234,14 +234,7 @@ export default function QuizApp() {
                 );
               })}
             </div>
-            <div className="footer mt-4 flex gap-2">
-              <button
-                className="btn secondary"
-                onClick={() => alert("Ah ah ahhh. No cheating.")}
-                disabled={index === 0}
-              >
-                Back
-              </button>
+            <div className="footer mt-4 flex justify-end">
               <button
                 className="btn"
                 onClick={() => {
