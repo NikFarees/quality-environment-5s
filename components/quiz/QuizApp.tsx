@@ -18,6 +18,43 @@ export default function QuizApp() {
   const [theme, setTheme] = useState<string>("dark");
   const [selectedChapter, setSelectedChapter] = useState<string | null>(null);
 
+  // Restore quiz state from localStorage on mount
+  useEffect(() => {
+    const saved = typeof window !== "undefined" ? localStorage.getItem("quiz-progress") : null;
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        if (parsed.selectedChapter && CHAPTERS[parsed.selectedChapter]) {
+          setQuestions(CHAPTERS[parsed.selectedChapter].map((q: Question) => ({ ...q })));
+          setSelectedChapter(parsed.selectedChapter);
+          setIndex(parsed.index || 0);
+          setStarted(parsed.started || false);
+          setFinished(parsed.finished || false);
+          setTimer(parsed.timer || 0);
+          if (parsed.answers) {
+            setAnswers(new Map(parsed.answers));
+          }
+        }
+      } catch {}
+    }
+  }, []);
+
+  // Save quiz state to localStorage on every change
+  useEffect(() => {
+    if (started && selectedChapter) {
+      const toSave = {
+        selectedChapter,
+        index,
+        started,
+        finished,
+        timer,
+        answers: Array.from(answers.entries()),
+      };
+      localStorage.setItem("quiz-progress", JSON.stringify(toSave));
+    } else {
+      localStorage.removeItem("quiz-progress");
+    }
+  }, [selectedChapter, index, started, finished, timer, answers]);
   // Load theme from localStorage
   useEffect(() => {
     const savedTheme = typeof window !== "undefined" ? localStorage.getItem("quiz-theme") : null;
@@ -58,6 +95,8 @@ export default function QuizApp() {
     setFinished(false);
     setTimer(0);
     setSelectedChapter(chapter);
+    // Remove any previous progress
+    localStorage.removeItem("quiz-progress");
   };
 
   const saveAnswer = (qid: number, chosenLetter: string, chosenText: string) => {
@@ -119,6 +158,11 @@ export default function QuizApp() {
               setStarted(false);
               setFinished(false);
               setSelectedChapter(null);
+              setQuestions([]);
+              setIndex(0);
+              setAnswers(new Map());
+              setTimer(0);
+              localStorage.removeItem("quiz-progress");
             }}>Home</button>
           </div>
         </header>
